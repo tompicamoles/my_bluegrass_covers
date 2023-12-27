@@ -11,14 +11,7 @@ import React from "react";
 const SearchBar = () => {
   return (
     <>
-      <Container 
-        sx={{
-          borderColor: "yellow",
-          border: 1,
-          marginBottom: "50px",
-          padding: "10px",
-        }}
-      >
+      
         <Typography marginBottom="10px" sx={{ textAlign: "center" }} variant="h6">
           Search a song
         </Typography>
@@ -34,7 +27,7 @@ const SearchBar = () => {
             <Button variant="contained">Search</Button>
           </Grid>
         </Grid>
-      </Container>
+      
     </>
   );
 };

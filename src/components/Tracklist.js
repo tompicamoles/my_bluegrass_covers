@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Track from "./Track";
 import { Container, Typography } from "@mui/material";
 import { purple } from "@mui/material/colors";
 
-const TrackList = () => {
+
+const TrackList = (props) => {
+
+
   return (
     <>
-      <Container
-        sx={{
-          borderColor: purple[400],
-          border: 1,
-          padding: "10px",
-        }}
-      >
-        <Typography sx={{paddingBottom:2}} variant="h4">Available tracks</Typography>
-
-        <Track />
+      <Container>
+        <Typography sx={{ paddingBottom: 2 }} variant="h4">
+          Available tracks
+        </Typography>
+        {props.tracks.map((track) => (
+          <Track
+            track={track}
+            Song={track.Song}
+            Artist={track.Artist}
+            Added={track.Added}
+            updatePlaylist={props.updatePlaylist}
+          />
+        ))}
       </Container>
     </>
   );

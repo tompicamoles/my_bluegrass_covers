@@ -1,38 +1,29 @@
-import { Theme } from "@mui/material";
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 import { deepOrange, deepPurple, orange, yellow } from "@mui/material/colors";
 
-
 const theme = createTheme({
-    palette:{
-      primary: {
-        main: deepOrange[800],
-        dark: deepOrange[100],
-      },
-      secondary:yellow,
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#00897b",
     },
-    components:{
-      MuiButton: {
-        defaultProps:{
-          disableRipple: true,
-          disableElevation : true,
-        },
-        styleOverrides:{
-          root:{
-            width:"100%",
-            
-          },
-        },
-      },
-      MuiGrid: {
-        styleOverrides: {
-          container: {
-            background: deepPurple[500], // Set your background color for Grid containers
-          },
+    secondary: {
+      main: "#f50057",
+    },
+  },
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          border: "2px solid #000", // Add your border style
+          borderRadius: "8px", // Add border-radius if needed
+          padding: "16px", // Add padding if needed
+          
+          justifyContent: "center", // Center content horizontally
         },
       },
-    }
+    },
+  },
+});
 
-  });
-
-export default theme
+export default theme;

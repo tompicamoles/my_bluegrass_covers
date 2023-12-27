@@ -1,41 +1,24 @@
-import { Add } from "@mui/icons-material";
-import { Divider, Grid, Typography,Box } from "@mui/material";
-import React from "react";
+import { Add, Remove } from "@mui/icons-material";
+import { Divider, Grid, Typography, Box } from "@mui/material";
 
-
-let hardcodedTracks = [
-    {
-        Song: "North Country Blues",
-        Artist: "Mighty Poplar",
-        Added: true
-    },
-    {
-        Song: "Hey Joe",
-        Artist: "Caamp",
-        Added: false
-
-    }
-]
-
-const Track = () => {
+const Track = (props) => {
   return (
     <>
-    {hardcodedTracks.map((track) => (
-        <Box marginBottom={2}>
+      <Box marginBottom={2}>
         <Grid container>
-        <Grid item xs={11}>
-          <Typography variant="h6">{track.Song}</Typography>
+          <Grid item xs={11}>
+            <Typography variant="h6">{props.Song}</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            {(props.Added === true ? 
+            <Remove onClick={() => props.updatePlaylist(props.track)}/> : 
+            <Add onClick={() => props.updatePlaylist(props.track)} />)}
+          </Grid>
         </Grid>
-        <Grid item xs={1}>
-          <Add />
-        </Grid>
-      </Grid>
 
-      <Typography variant="subtitle1">{track.Artist}</Typography>
-      <Divider />
+        <Typography variant="subtitle1">{props.Artist}</Typography>
+        <Divider />
       </Box>
-    ))}
-      
     </>
   );
 };

@@ -1,21 +1,24 @@
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container, Typography, Box } from "@mui/material";
 import React from "react";
 import Track from "./Track";
 
-const Playlist = () => {
+const Playlist = (props) => {
   return (
     <>
-      <Container 
-        sx={{
+      <Container>
+        <Typography sx={{ paddingBottom: 2 }} variant="h4">
+          Your playlist
+        </Typography>
 
-          border: 1,
-          padding: "10px",
-          textAlign:"center"
-        }}
-      >
-        <Typography sx={{paddingBottom:2}} variant="h4">Your playlist</Typography>
-
-        <Track />
+        {props.playlistTracks.map((track) => (
+          <Track
+            track={track}
+            Song={track.Song}
+            Artist={track.Artist}
+            Added={track.Added}
+            updatePlaylist={props.updatePlaylist}
+          />
+        ))}
 
         <Button variant="contained"> Save playlist</Button>
       </Container>
