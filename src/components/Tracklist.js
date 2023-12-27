@@ -3,10 +3,7 @@ import Track from "./Track";
 import { Container, Typography } from "@mui/material";
 import { purple } from "@mui/material/colors";
 
-
 const TrackList = (props) => {
-
-
   return (
     <>
       <Container>
@@ -15,11 +12,12 @@ const TrackList = (props) => {
         </Typography>
         {props.tracks.map((track) => (
           <Track
+            key={track.id}
             track={track}
             Song={track.Song}
             Artist={track.Artist}
             Added={track.Added}
-            updatePlaylist={props.updatePlaylist}
+            updateTrackList={props.updateTrackList}
           />
         ))}
       </Container>

@@ -4,15 +4,15 @@ import { Divider, Grid, Typography, Box } from "@mui/material";
 const Track = (props) => {
   return (
     <>
-      <Box marginBottom={2}>
+      <Box key={props.key} marginBottom={2}>
         <Grid container>
           <Grid item xs={11}>
             <Typography variant="h6">{props.Song}</Typography>
           </Grid>
           <Grid item xs={1}>
             {(props.Added === true ? 
-            <Remove onClick={() => props.updatePlaylist(props.track)}/> : 
-            <Add onClick={() => props.updatePlaylist(props.track)} />)}
+            <Remove onClick={() => props.updateTrackList(props.track)}/> : 
+            <Add onClick={() => props.updateTrackList(props.track)} />)}
           </Grid>
         </Grid>
 
