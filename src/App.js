@@ -37,31 +37,24 @@ const App = () => {
 
   const updateTrackList = (track) => {
     const objectIndex = tracks.findIndex((obj) => obj.Id === track.Id);
-    
+
+    const updateState = (value) => {
+      const updatedObject = {
+        ...tracks[objectIndex],
+        Added: value,
+      };
+      const updatedArray = [...tracks];
+      updatedArray[objectIndex] = updatedObject;
+      setTracks(updatedArray);
+    };
+
 
     if (track.Added === true) {
-      
-      const updatedObject = {
-        ...tracks[objectIndex],
-        Added: false,
-      };
-      const updatedArray = [...tracks];
-      updatedArray[objectIndex] = updatedObject;
-      setTracks(updatedArray);
 
-
+      updateState(false)
     } else {
-
-      const updatedObject = {
-        ...tracks[objectIndex],
-        Added: true,
-      };
-      const updatedArray = [...tracks];
-      updatedArray[objectIndex] = updatedObject;
-      setTracks(updatedArray);
+      updateState(true)
     }
-
-    
   };
 
   return (
