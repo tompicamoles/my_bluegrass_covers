@@ -4,7 +4,7 @@ import { Divider, Grid, Typography, Box } from "@mui/material";
 const Track = (props) => {
   return (
     <>
-      <Box key={props.key} marginBottom={2}>
+      <Box  marginBottom={2}>
         <Grid container>
           <Grid item xs={11}>
             <Typography variant="h6">{props.Song}</Typography>
@@ -16,7 +16,7 @@ const Track = (props) => {
           </Grid>
         </Grid>
 
-        <Typography variant="subtitle1">{props.Artist}</Typography>
+        <Typography variant="subtitle1">{props.Artist} | {props.Album}</Typography>
         <Divider />
       </Box>
     </>

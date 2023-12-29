@@ -1,29 +1,71 @@
-import { Button, Container, Typography, Box } from "@mui/material";
-import React from "react";
+import {
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Box,
+  Input,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Track from "./Track";
 
 const Playlist = (props) => {
-  const playlistTracks = props.tracks.filter((track) => track.Added === true);
+  const [playlistName, setPlaylistName] = useState("");
+
+  const [playlistTracks, setPlaylistTracks] = useState([]);
+
+
+  useEffect(() => {
+
+
+    setPlaylistTracks(props.tracks.filter((track) => track.Added === true));
+  }, [props.tracks]);
+
+
+  const handleTextChange = ({ target }) => {
+    const { value } = target;
+    setPlaylistName(value);
+  };
+
+  const [uriArray, setUriArray] = useState([]);
+
+  useEffect(() => {
+    const Array = playlistTracks.map((track) => track.uri);
+    setUriArray(Array);
+    
+
+  },[playlistTracks]);
+
+  console.log(uriArray)
 
   return (
     <>
       <Container>
-        <Typography sx={{ paddingBottom: 2 }} variant="h4">
-          Your playlist
-        </Typography>
+        <TextField
+          fullWidth={true}
+          label="Your playlist"
+          onChange={handleTextChange}
+          value={playlistName}
+          id="outilned-basic"
+          variant="outlined"
+        />
 
-        {playlistTracks.map((track) => (
+        {playlistTracks.map((track, index) => (
           <Track
-            key={track.id}
+            key={index}
             track={track}
             Song={track.Song}
             Artist={track.Artist}
+            Album={track.Album}
             Added={track.Added}
             updateTrackList={props.updateTrackList}
           />
         ))}
 
-        <Button variant="contained"> Save playlist</Button>
+        <Button variant="contained" sx={{ marginTop: 2 }}>
+          {" "}
+          Save playlist
+        </Button>
       </Container>
     </>
   );

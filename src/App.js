@@ -18,13 +18,17 @@ let hardcodedTracks = [
     Id: 1,
     Song: "North Country Blues",
     Artist: "Mighty Poplar",
+    Album:"Love",
     Added: false,
+    uri: "test.com",
   },
   {
     Id: 2,
     Song: "Hey Joe",
     Artist: "Caamp",
+    Album:"Folk",
     Added: false,
+    uri: "test-2.com",
   },
 ];
 
