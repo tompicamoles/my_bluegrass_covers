@@ -14,7 +14,7 @@ const Playlist = (props) => {
 
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
-
+  console.log("lol")
   useEffect(() => {
 
 
