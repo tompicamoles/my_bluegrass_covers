@@ -61,19 +61,46 @@ const App = () => {
     
   }, []);
 
-  const updateTrackList = (track) => {
-
-    setPlaylist( () => {
+  const updatePlaylist = (track) => {
+    track.Added = true ;
+    console.log ("current track : ", track)
+    
+    
+    setPlaylist((prev) => {
+      console.log("previoux :" ,prev)
+      let isIncluded = prev.some(t => t.Id === track.Id)
+      console.log("track included:" ,isIncluded)
+      if (prev.some(t => t.Id === track.Id) ) {
+        
+        return prev.filter ( t => t.Id!== track.Id)
+      } else {
+        
+        return [...prev, track]
+      }
       
     })
-    const objectIndex = tracks.findIndex((obj) => obj.Id === track.Id);
 
+  }
+
+
+  const handleNameChange = ({ target }) => {
+    const { value } = target;
+    setPlaylistName(value);
+  };
+
+  const updateTrackList = (track) => {
+
+    
+
+    
+    const objectIndex = tracks.findIndex((obj) => obj.Id === track.Id);
     const updateState = (value) => {
       const updatedObject = {
         ...tracks[objectIndex],
         Added: value,
       };
       const updatedArray = [...tracks];
+
       updatedArray[objectIndex] = updatedObject;
       setTracks(updatedArray);
     };
@@ -81,8 +108,13 @@ const App = () => {
     if (track.Added === true) {
       updateState(false);
     } else {
-      updateState(true);
+      updateState(true)
+     
     }
+
+    updatePlaylist(track);
+
+    console.log(playlist)
   };
   
   if (accessToken) {
@@ -101,7 +133,7 @@ const App = () => {
                 <TrackList tracks={tracks} updateTrackList={updateTrackList} />
               </Grid>
               <Grid item xs={4}>
-                <Playlist tracks={tracks} updateTrackList={updateTrackList} />
+                <Playlist playlistName={playlistName} handleNameChange={handleNameChange} playlist={playlist} updateTrackList={updateTrackList} />
               </Grid>
             </Grid>
           </Container>

@@ -10,40 +10,33 @@ import React, { useEffect, useState } from "react";
 import Track from "./Track";
 
 const Playlist = (props) => {
-  const [playlistName, setPlaylistName] = useState("");
-
-  const [playlistTracks, setPlaylistTracks] = useState([]);
-
-
-  const handleTextChange = ({ target }) => {
-    const { value } = target;
-    setPlaylistName(value);
-  };
+  
 
   const [uriArray, setUriArray] = useState([]);
 
   useEffect(() => {
-    const Array = playlistTracks.map((track) => track.uri);
+    const Array = props.playlist.map((track) => track.uri);
     setUriArray(Array);
     
 
-  },[playlistTracks]);
+  },[props.playlist]);
 
   console.log(uriArray)
 
   return (
     <>
       <Container>
+        <Typography>Your new playlist {props.playlistName} </Typography>
         <TextField
           fullWidth={true}
-          label="Your playlist"
-          onChange={handleTextChange}
-          value={playlistName}
+          label="Name"
+          onChange={props.handleNameChange}
+          value={props.playlistName}
           id="outilned-basic"
           variant="outlined"
         />
 
-        {playlistTracks.map((track, index) => (
+        {props.playlist.map((track, index) => (
           <Track
             key={index}
             track={track}
