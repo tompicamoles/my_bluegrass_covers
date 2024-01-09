@@ -14,13 +14,6 @@ const Playlist = (props) => {
 
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
-  console.log("lol")
-  useEffect(() => {
-
-
-    setPlaylistTracks(props.tracks.filter((track) => track.Added === true));
-  }, [props.tracks]);
-
 
   const handleTextChange = ({ target }) => {
     const { value } = target;

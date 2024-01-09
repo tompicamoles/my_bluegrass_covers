@@ -39,6 +39,8 @@ let hardcodedTracks = [
 
 const App = () => {
   const [tracks, setTracks] = useState([]);
+  const [playlistName, setPlaylistName] = useState("");
+  const [playlist, setPlaylist] = useState([]);
   const [accessToken, setAccessToken] = useState("");
   
   
@@ -60,6 +62,10 @@ const App = () => {
   }, []);
 
   const updateTrackList = (track) => {
+
+    setPlaylist( () => {
+      
+    })
     const objectIndex = tracks.findIndex((obj) => obj.Id === track.Id);
 
     const updateState = (value) => {
@@ -98,7 +104,6 @@ const App = () => {
                 <Playlist tracks={tracks} updateTrackList={updateTrackList} />
               </Grid>
             </Grid>
-            <Box>Token : {accessToken}</Box>
           </Container>
         </ThemeProvider>
       </>
