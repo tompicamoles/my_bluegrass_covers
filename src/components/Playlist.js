@@ -26,7 +26,6 @@ const Playlist = (props) => {
   return (
     <>
       <Container>
-        <Typography>Your new playlist {props.playlistName} </Typography>
         <TextField
           fullWidth={true}
           label="Name"
@@ -50,7 +49,7 @@ const Playlist = (props) => {
 
         <Button variant="contained" sx={{ marginTop: 2 }}>
           {" "}
-          Save playlist
+          Save {!props.playlistName ? "Playlist" : props.playlistName}
         </Button>
       </Container>
     </>
