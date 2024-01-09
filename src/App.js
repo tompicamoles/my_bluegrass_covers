@@ -33,19 +33,30 @@ let hardcodedTracks = [
   },
 ];
 
+
+
+
+
 const App = () => {
   const [tracks, setTracks] = useState([]);
   const [accessToken, setAccessToken] = useState("");
+  
+  
 
   useEffect(() => {
+
     setTracks(hardcodedTracks);
 
     const fetchData = async () => {
       const spotifyToken = await generateAccessToken();
+      console.log("App.js monted. there is a token" , spotifyToken)
       setAccessToken(spotifyToken);
-    };
 
+    };
+    
     fetchData();
+    
+    
   }, []);
 
   const updateTrackList = (track) => {
@@ -67,7 +78,7 @@ const App = () => {
       updateState(true);
     }
   };
-
+  
   if (accessToken) {
     return (
       <>

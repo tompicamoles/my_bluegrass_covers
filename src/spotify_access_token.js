@@ -35,6 +35,10 @@ const generateToken = async () => {
   return spotifyToken;
 };
 
+
+
+
+
 const generateAccessToken = () => {
   const currentUrl = window.location.href;
 
