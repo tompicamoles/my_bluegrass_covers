@@ -12,13 +12,14 @@ import {
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar/SearchBar";
 import theme from "./Theme";
+import { generateAccessToken, authentificate } from "./spotify_access_token";
 
 let hardcodedTracks = [
   {
     Id: 1,
     Song: "North Country Blues",
     Artist: "Mighty Poplar",
-    Album:"Love",
+    Album: "Love",
     Added: false,
     uri: "test.com",
   },
@@ -26,7 +27,7 @@ let hardcodedTracks = [
     Id: 2,
     Song: "Hey Joe",
     Artist: "Caamp",
-    Album:"Folk",
+    Album: "Folk",
     Added: false,
     uri: "test-2.com",
   },
@@ -34,9 +35,17 @@ let hardcodedTracks = [
 
 const App = () => {
   const [tracks, setTracks] = useState([]);
+  const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
     setTracks(hardcodedTracks);
+
+    const fetchData = async () => {
+      const spotifyToken = await generateAccessToken();
+      setAccessToken(spotifyToken);
+    };
+
+    fetchData();
   }, []);
 
   const updateTrackList = (track) => {
@@ -52,37 +61,54 @@ const App = () => {
       setTracks(updatedArray);
     };
 
-
     if (track.Added === true) {
-
-      updateState(false)
+      updateState(false);
     } else {
-      updateState(true)
+      updateState(true);
     }
   };
 
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Container
-          maxWidth="sm"
-          style={{ marginTop: "100px", marginBottom: "100px" }}
-        >
-          <SearchBar />
-        </Container>
-        <Container sx={{ border: "none" }}>
-          <Grid container spacing={2} alignContent="center">
-            <Grid item xs={8}>
-              <TrackList tracks={tracks} updateTrackList={updateTrackList} />
+  if (accessToken) {
+    return (
+      <>
+        <ThemeProvider theme={theme}>
+          <Container
+            maxWidth="sm"
+            style={{ marginTop: "100px", marginBottom: "100px" }}
+          >
+            <SearchBar />
+          </Container>
+          <Container sx={{ border: "none" }}>
+            <Grid container spacing={2} alignContent="center">
+              <Grid item xs={8}>
+                <TrackList tracks={tracks} updateTrackList={updateTrackList} />
+              </Grid>
+              <Grid item xs={4}>
+                <Playlist tracks={tracks} updateTrackList={updateTrackList} />
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <Playlist tracks={tracks} updateTrackList={updateTrackList} />
-            </Grid>
-          </Grid>
-        </Container>
-      </ThemeProvider>
-    </>
-  );
+            <Box>Token : {accessToken}</Box>
+          </Container>
+        </ThemeProvider>
+      </>
+    );
+  } else {
+    return (
+      <>
+        {" "}
+        <ThemeProvider theme={theme}>
+          <Container
+            maxWidth="sm"
+            style={{ marginTop: "100px", marginBottom: "100px" }}
+          >
+            <Button variant="contained" onClick={authentificate}>
+              Log Into Spotify
+            </Button>
+          </Container>
+        </ThemeProvider>
+      </>
+    );
+  }
 };
 
 export default App;
