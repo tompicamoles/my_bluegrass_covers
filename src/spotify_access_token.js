@@ -102,4 +102,47 @@ const authentificate = () => {
   window.location.href = authUrl;
 };
 
-export { generateAccessToken, authentificate };
+
+const fetchTracks = async (query) => {
+  const apiUrl = 'https://api.spotify.com/v1/search?'
+
+  const token = await generateToken()
+
+  const header = {
+    Authorization: `Bearer ${token}`
+  }
+  const requestBody = new URLSearchParams({
+    q: query,
+    type: ["track"],
+    limit:30
+  });
+
+  const urlWithParameters = apiUrl + requestBody.toString()
+  console.log(urlWithParameters)
+
+  const requestOptions = {
+    headers: header,
+  };
+  console.log(requestOptions)
+
+  const tracks = await fetch(urlWithParameters, requestOptions)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log("Data from API:", data);
+    
+    // Additional processing with the received data
+  })
+  .catch((error) => {
+    console.error("Fetch error:", error);
+  });
+    
+  
+}
+
+fetchTracks("techno")
+//export { generateAccessToken, authentificate };

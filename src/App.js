@@ -63,16 +63,14 @@ const App = () => {
 
   const updatePlaylist = (track) => {
     track.Added = true ;
-    console.log ("current track : ", track)
     
     
     setPlaylist((prev) => {
-      console.log("previoux :" ,prev)
-      let isIncluded = prev.some(t => t.Id === track.Id)
-      console.log("track included:" ,isIncluded)
-      if (prev.some(t => t.Id === track.Id) ) {
+      
+      let isIncluded = prev.some(t => t.uri === track.uri)
+      if (prev.some(t => t.uri === track.uri) ) {
         
-        return prev.filter ( t => t.Id!== track.Id)
+        return prev.filter ( t => t.uri!== track.uri)
       } else {
         
         return [...prev, track]
