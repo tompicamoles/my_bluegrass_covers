@@ -118,22 +118,41 @@ const fetchTracks = async (query) => {
   });
 
   const urlWithParameters = apiUrl + requestBody.toString()
-  console.log(urlWithParameters)
+  //console.log(urlWithParameters)
 
   const requestOptions = {
     headers: header,
   };
-  console.log(requestOptions)
+  //console.log(requestOptions)
 
-  const tracks = await fetch(urlWithParameters, requestOptions)
+  const trackList = await fetch(urlWithParameters, requestOptions)
   .then((response) => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
+    //console.log(response)
     return response.json();
   })
   .then((data) => {
-    console.log("Data from API:", data);
+    let tracks = []
+    data.tracks.items.map(item => {
+
+      let track = {
+        Song: item.name,
+        Artist : item.artists[0].name,
+        Album : item.album.name,
+        Added : false,
+        uri : item.uri
+      }
+
+      tracks.push(track)
+
+
+    })
+    //console.log("Data from API:", data);
+
+    console.log("tracks in BFF" ,tracks)
+    return tracks
     
     // Additional processing with the received data
   })
@@ -141,8 +160,9 @@ const fetchTracks = async (query) => {
     console.error("Fetch error:", error);
   });
     
-  
+ return trackList
+
 }
 
-fetchTracks("techno")
-//export { generateAccessToken, authentificate };
+//fetchTracks("bluegrass")
+export { generateAccessToken, authentificate, fetchTracks };

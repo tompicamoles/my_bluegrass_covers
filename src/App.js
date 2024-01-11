@@ -12,7 +12,11 @@ import {
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar/SearchBar";
 import theme from "./Theme";
-import { generateAccessToken, authentificate } from "./spotify_access_token";
+import {
+  generateAccessToken,
+  authentificate,
+  fetchTracks,
+} from "./spotify_access_token";
 
 let hardcodedTracks = [
   {
@@ -33,53 +37,37 @@ let hardcodedTracks = [
   },
 ];
 
-
-
-
-
 const App = () => {
   const [tracks, setTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
   const [playlist, setPlaylist] = useState([]);
   const [accessToken, setAccessToken] = useState("");
-  
-  
 
   useEffect(() => {
-
-    setTracks(hardcodedTracks);
-
-    const fetchData = async () => {
+    const fetchData = async (query) => {
       const spotifyToken = await generateAccessToken();
-      console.log("App.js monted. there is a token" , spotifyToken)
+      console.log("App.js monted. there is a token", spotifyToken);
       setAccessToken(spotifyToken);
 
+      const trackList = await fetchTracks(query);
+      console.log("tracks in app", trackList);
+      setTracks(trackList);
     };
-    
-    fetchData();
-    
-    
+    fetchData("Blues");
   }, []);
 
   const updatePlaylist = (track) => {
-    track.Added = true ;
-    
-    
+    track.Added = true;
+
     setPlaylist((prev) => {
-      
-      let isIncluded = prev.some(t => t.uri === track.uri)
-      if (prev.some(t => t.uri === track.uri) ) {
-        
-        return prev.filter ( t => t.uri!== track.uri)
+      let isIncluded = prev.some((t) => t.uri === track.uri);
+      if (prev.some((t) => t.uri === track.uri)) {
+        return prev.filter((t) => t.uri !== track.uri);
       } else {
-        
-        return [...prev, track]
+        return [...prev, track];
       }
-      
-    })
-
-  }
-
+    });
+  };
 
   const handleNameChange = ({ target }) => {
     const { value } = target;
@@ -87,10 +75,6 @@ const App = () => {
   };
 
   const updateTrackList = (track) => {
-
-    
-
-    
     const objectIndex = tracks.findIndex((obj) => obj.Id === track.Id);
     const updateState = (value) => {
       const updatedObject = {
@@ -106,15 +90,14 @@ const App = () => {
     if (track.Added === true) {
       updateState(false);
     } else {
-      updateState(true)
-     
+      updateState(true);
     }
 
     updatePlaylist(track);
 
-    console.log(playlist)
+    console.log(playlist);
   };
-  
+
   if (accessToken) {
     return (
       <>
@@ -131,7 +114,12 @@ const App = () => {
                 <TrackList tracks={tracks} updateTrackList={updateTrackList} />
               </Grid>
               <Grid item xs={4}>
-                <Playlist playlistName={playlistName} handleNameChange={handleNameChange} playlist={playlist} updateTrackList={updateTrackList} />
+                <Playlist
+                  playlistName={playlistName}
+                  handleNameChange={handleNameChange}
+                  playlist={playlist}
+                  updateTrackList={updateTrackList}
+                />
               </Grid>
             </Grid>
           </Container>
