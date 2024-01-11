@@ -13,20 +13,20 @@ const SearchBar = (props) => {
 
   const updateQuery = ({target}) => {
    const {value} = target;
-   setQuery(value)
+   setQuery(!value ? "Blues" : value)
   }
 
   return (
     <>
       <Typography marginBottom="10px" sx={{ textAlign: "center" }} variant="h6">
-        Search a song : {query}
+        Search songs {query}
       </Typography>
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item>
           <TextField id="outlined-basic" label="Type Here" variant="outlined" value={query} onChange={updateQuery} />
         </Grid>
         <Grid item>
-          <Button variant="contained" onClick={() => props.setTrackList(!query ? "blues" : query)} >Search</Button>
+          <Button variant="contained" onClick={() => props.setTrackList(query)} >Search</Button>
         </Grid>
         
       </Grid>
