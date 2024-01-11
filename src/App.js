@@ -43,17 +43,25 @@ const App = () => {
   const [playlist, setPlaylist] = useState([]);
   const [accessToken, setAccessToken] = useState("");
 
+  const setTrackList = async query => {
+    const trackList = await fetchTracks(query);
+    console.log("tracks in app", trackList);
+    setTracks(trackList);
+  }
+
   useEffect(() => {
-    const fetchData = async (query) => {
+    const fetchData = async () => {
       const spotifyToken = await generateAccessToken();
       console.log("App.js monted. there is a token", spotifyToken);
       setAccessToken(spotifyToken);
 
-      const trackList = await fetchTracks(query);
-      console.log("tracks in app", trackList);
-      setTracks(trackList);
+      
     };
-    fetchData("Blues");
+    fetchData();
+
+    
+    setTrackList("Blues")
+    
   }, []);
 
   const updatePlaylist = (track) => {
@@ -73,6 +81,7 @@ const App = () => {
     const { value } = target;
     setPlaylistName(value);
   };
+
 
   const updateTrackList = (track) => {
     const objectIndex = tracks.findIndex((obj) => obj.Id === track.Id);
@@ -106,7 +115,7 @@ const App = () => {
             maxWidth="sm"
             style={{ marginTop: "100px", marginBottom: "100px" }}
           >
-            <SearchBar />
+            <SearchBar setTrackList={setTrackList} />
           </Container>
           <Container sx={{ border: "none" }}>
             <Grid container spacing={2} alignContent="center">

@@ -114,7 +114,7 @@ const fetchTracks = async (query) => {
   const requestBody = new URLSearchParams({
     q: query,
     type: ["track"],
-    limit:30
+    limit:15
   });
 
   const urlWithParameters = apiUrl + requestBody.toString()
