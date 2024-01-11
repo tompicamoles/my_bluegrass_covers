@@ -13,7 +13,7 @@ const SearchBar = (props) => {
 
   const updateQuery = ({target}) => {
    const {value} = target;
-   setQuery(!value ? "Blues" : value)
+   setQuery(value)
   }
 
   return (
@@ -26,7 +26,7 @@ const SearchBar = (props) => {
           <TextField id="outlined-basic" label="Type Here" variant="outlined" value={query} onChange={updateQuery} />
         </Grid>
         <Grid item>
-          <Button variant="contained" onClick={() => props.setTrackList(query)} >Search</Button>
+          <Button variant="contained" onClick={() => props.setTrackList(!query ? "blues" : query)} >Search</Button>
         </Grid>
         
       </Grid>
