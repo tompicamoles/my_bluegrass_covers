@@ -64,7 +64,7 @@ const App = () => {
     
   }, []);
 
-console.log("test")
+console.log("tesdededet")
 
   const updatePlaylist = (track) => {
     track.Added = true;
