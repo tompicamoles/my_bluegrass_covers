@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Track from "./Track";
+import { createPlaylist } from "../spotify_access_token";
 
 const Playlist = (props) => {
   
@@ -20,6 +21,18 @@ const Playlist = (props) => {
     
 
   },[props.playlist]);
+
+  const playlistCreation = (token, name , tracks) => {
+
+    props.createPlaylist(token, name, tracks)
+
+    alert('Success! Your playlist was created')
+
+    props.setPlaylistName("")
+    props.setPlaylist([])
+    setUriArray([])
+    
+  }
 
   console.log(uriArray)
 
@@ -47,7 +60,7 @@ const Playlist = (props) => {
           />
         ))}
 
-        <Button variant="contained" onClick={()=> {props.createPlaylist(props.accessToken, props.playlistName , uriArray)}} sx={{ marginTop: 2 }}>
+        <Button variant="contained" onClick={()=> {playlistCreation(props.accessToken, props.playlistName , uriArray)}} sx={{ marginTop: 2 }}>
           {" "}
           Save {!props.playlistName ? "Playlist" : props.playlistName}
         </Button>

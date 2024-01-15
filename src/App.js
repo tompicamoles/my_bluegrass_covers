@@ -127,8 +127,10 @@ const App = () => {
               <Grid item xs={4}>
                 <Playlist
                   playlistName={playlistName}
+                  setPlaylistName={setPlaylistName}
                   handleNameChange={handleNameChange}
                   playlist={playlist}
+                  setPlaylist={setPlaylist}
                   updateTrackList={updateTrackList}
                   createPlaylist = {createPlaylist}
                   accessToken={accessToken}
