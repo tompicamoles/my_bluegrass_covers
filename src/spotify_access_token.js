@@ -35,10 +35,6 @@ const generateToken = async () => {
   return spotifyToken;
 };
 
-
-
-
-
 const generateAccessToken = () => {
   const currentUrl = window.location.href;
 
@@ -49,12 +45,9 @@ const generateAccessToken = () => {
   const code = urlParams.get("code");
 
   if (!code) {
-    console.log("pas de code")
+    console.log("pas de code");
     return null;
-
   } else {
-    
-
     const headers = {
       Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
       "Content-Type": "application/x-www-form-urlencoded",
@@ -81,9 +74,9 @@ const generateAccessToken = () => {
       })
       .then((data) => {
         console.log("Data from API:", data);
-        let token = data.access_token
-        console.log("we retrieved" , token)
-        return token 
+        let token = data.access_token;
+        console.log("we retrieved", token);
+        return token;
         // Additional processing with the received data
       })
       .catch((error) => {
@@ -95,29 +88,29 @@ const generateAccessToken = () => {
 };
 
 const authentificate = () => {
-  const scope = "user-read-private user-read-email"; // Add the required scopes
+  const scope =
+    "user-read-private user-read-email playlist-modify-private user-follow-modify "; // Add the required scopes
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
 
   // Redirect the user to the authorization URL
   window.location.href = authUrl;
 };
 
-
 const fetchTracks = async (query) => {
-  const apiUrl = 'https://api.spotify.com/v1/search?'
+  const apiUrl = "https://api.spotify.com/v1/search?";
 
-  const token = await generateToken()
+  const token = await generateToken();
 
   const header = {
-    Authorization: `Bearer ${token}`
-  }
+    Authorization: `Bearer ${token}`,
+  };
   const requestBody = new URLSearchParams({
     q: query,
     type: ["track"],
-    limit:15
+    limit: 15,
   });
 
-  const urlWithParameters = apiUrl + requestBody.toString()
+  const urlWithParameters = apiUrl + requestBody.toString();
   //console.log(urlWithParameters)
 
   const requestOptions = {
@@ -126,43 +119,165 @@ const fetchTracks = async (query) => {
   //console.log(requestOptions)
 
   const trackList = await fetch(urlWithParameters, requestOptions)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    //console.log(response)
-    return response.json();
-  })
-  .then((data) => {
-    let tracks = []
-    data.tracks.items.map(item => {
-
-      let track = {
-        Song: item.name,
-        Artist : item.artists[0].name,
-        Album : item.album.name,
-        Added : false,
-        uri : item.uri
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
-      tracks.push(track)
-
-
+      //console.log(response)
+      return response.json();
     })
-    //console.log("Data from API:", data);
+    .then((data) => {
+      let tracks = [];
+      data.tracks.items.map((item) => {
+        let track = {
+          Song: item.name,
+          Artist: item.artists[0].name,
+          Album: item.album.name,
+          Added: false,
+          uri: item.uri,
+        };
 
-    console.log("tracks in BFF" ,tracks)
-    return tracks
-    
-    // Additional processing with the received data
-  })
-  .catch((error) => {
-    console.error("Fetch error:", error);
-  });
-    
- return trackList
+        tracks.push(track);
+      });
+      //console.log("Data from API:", data);
 
-}
+      console.log("tracks in BFF", tracks);
+      return tracks;
+
+      // Additional processing with the received data
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
+
+  return trackList;
+};
+
+const createPlaylist = async (accessToken, name, items) => {
+  const AccesToken = accessToken;
+  const playlistName = name;
+  console.log(AccesToken);
+
+  const getUserId = async () => {
+    const requestHeaders = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AccesToken}`,
+    };
+
+    const id = fetch("https://api.spotify.com/v1/me", {
+      // Specify the HTTP method (GET, POST, PUT, DELETE, etc.)
+      headers: requestHeaders,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Parse the response JSON
+      })
+      .then((data) => {
+        // Handle the successful response data
+        console.log("Response:", data);
+        const id = data.id;
+        return id;
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
+
+    return id;
+  };
+
+  const createNewPlaylist = async (name) => {
+    const userId = await getUserId();
+
+    // Define the data (if needed)
+    const requestData = {
+      name: playlistName,
+      description: "Awesome playlist created with Tom App",
+      public: false,
+    };
+
+    // Define the headers (if needed)
+    const requestHeaders = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AccesToken}`,
+    };
+
+    // Create the Fetch API request
+    const playListId = fetch(
+      `https://api.spotify.com/v1/users/${userId}/playlists`,
+      {
+        method: "POST",
+        headers: requestHeaders,
+        body: JSON.stringify(requestData),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Parse the response JSON
+      })
+      .then((data) => {
+        // Handle the successful response data
+        console.log("Response:", data);
+        return data.id;
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
+    return playListId;
+  };
+
+  const addPlaylistItems = async (items) => {
+    const playlistId = await createNewPlaylist();
+    console.log(playlistId);
+
+    const addItems = (items) => {
+      const requestData = {
+        uris: items,
+        position: 0,
+      };
+
+      // Define the headers (if needed)
+      const requestHeaders = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${AccesToken}`,
+      };
+
+      // Create the Fetch API request
+      fetch(
+        `https://api.spotify.com/v1/playlists/${playlistId}/tracks
+      `,
+        {
+          method: "POST", // Specify the HTTP method (GET, POST, PUT, DELETE, etc.)
+          headers: requestHeaders,
+          body: JSON.stringify(requestData), // Convert data to JSON format if needed
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json(); // Parse the response JSON
+        })
+        .then((data) => {
+          // Handle the successful response data
+          console.log("Response:", data);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error:", error);
+        });
+    };
+    addItems(items);
+  };
+
+  addPlaylistItems(items);
+};
 
 //fetchTracks("bluegrass")
-export { generateAccessToken, authentificate, fetchTracks };
+// createPlaylist()
+export { generateAccessToken, authentificate, fetchTracks, createPlaylist };

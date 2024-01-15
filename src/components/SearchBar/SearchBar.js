@@ -23,7 +23,7 @@ const SearchBar = (props) => {
       </Typography>
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item>
-          <TextField id="outlined-basic" label="Type Here" variant="outlined" value={query} onChange={updateQuery} />
+          <TextField id="outlined-basic" label="Type Here" variant="outlined"  onChange={updateQuery} />
         </Grid>
         <Grid item>
           <Button variant="contained" onClick={() => props.setTrackList(!query ? "blues" : query)} >Search</Button>

@@ -47,7 +47,7 @@ const Playlist = (props) => {
           />
         ))}
 
-        <Button variant="contained" sx={{ marginTop: 2 }}>
+        <Button variant="contained" onClick={()=> {props.createPlaylist(props.accessToken, props.playlistName , uriArray)}} sx={{ marginTop: 2 }}>
           {" "}
           Save {!props.playlistName ? "Playlist" : props.playlistName}
         </Button>

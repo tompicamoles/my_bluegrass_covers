@@ -16,6 +16,7 @@ import {
   generateAccessToken,
   authentificate,
   fetchTracks,
+  createPlaylist
 } from "./spotify_access_token";
 
 let hardcodedTracks = [
@@ -129,6 +130,8 @@ const App = () => {
                   handleNameChange={handleNameChange}
                   playlist={playlist}
                   updateTrackList={updateTrackList}
+                  createPlaylist = {createPlaylist}
+                  accessToken={accessToken}
                 />
               </Grid>
             </Grid>
