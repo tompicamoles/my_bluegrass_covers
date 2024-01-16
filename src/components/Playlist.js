@@ -11,30 +11,32 @@ import Track from "./Track";
 import { createPlaylist } from "../spotify_access_token";
 
 const Playlist = (props) => {
-  
-
   const [uriArray, setUriArray] = useState([]);
 
   useEffect(() => {
     const Array = props.playlist.map((track) => track.uri);
     setUriArray(Array);
-    
+  }, [props.playlist]);
 
-  },[props.playlist]);
+  const playlistCreation = (token, name, tracks) => {
+    if (!name || tracks.length === 0) {
+      if (!name) {
+        alert("You must type a Playlist Name");
+      } else {
+        alert("No track selected in your playlist");
+      }
+    } else {
+      props.createPlaylist(token, name, tracks);
 
-  const playlistCreation = (token, name , tracks) => {
+      alert("Success! Your playlist was created");
 
-    props.createPlaylist(token, name, tracks)
+      props.setPlaylistName("");
+      props.setPlaylist([]);
+      setUriArray([]);
+    }
+  };
 
-    alert('Success! Your playlist was created')
-
-    props.setPlaylistName("")
-    props.setPlaylist([])
-    setUriArray([])
-    
-  }
-
-  console.log(uriArray)
+  console.log(uriArray);
 
   return (
     <>
@@ -60,7 +62,13 @@ const Playlist = (props) => {
           />
         ))}
 
-        <Button variant="contained" onClick={()=> {playlistCreation(props.accessToken, props.playlistName , uriArray)}} sx={{ marginTop: 2 }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            playlistCreation(props.accessToken, props.playlistName, uriArray);
+          }}
+          sx={{ marginTop: 2 }}
+        >
           {" "}
           Save {!props.playlistName ? "Playlist" : props.playlistName}
         </Button>

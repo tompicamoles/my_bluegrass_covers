@@ -86,7 +86,7 @@ const App = () => {
 
 
   const updateTrackList = (track) => {
-    const objectIndex = tracks.findIndex((obj) => obj.Id === track.Id);
+    const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
     const updateState = (value) => {
       const updatedObject = {
         ...tracks[objectIndex],

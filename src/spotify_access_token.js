@@ -154,6 +154,9 @@ const fetchTracks = async (query) => {
 };
 
 const createPlaylist = async (accessToken, name, items) => {
+
+  
+
   const AccesToken = accessToken;
   const playlistName = name;
   console.log(AccesToken);
