@@ -48,6 +48,7 @@ const Playlist = (props) => {
           value={props.playlistName}
           id="outilned-basic"
           variant="outlined"
+          
         />
 
         {props.playlist.map((track, index) => (
@@ -61,17 +62,18 @@ const Playlist = (props) => {
             updateTrackList={props.updateTrackList}
           />
         ))}
-
-        <Button
-          variant="contained"
-          onClick={() => {
-            playlistCreation(props.accessToken, props.playlistName, uriArray);
-          }}
-          sx={{ marginTop: 2 }}
-        >
-          {" "}
-          Save {!props.playlistName ? "Playlist" : props.playlistName}
-        </Button>
+        <Box textAlign="center">
+          <Button
+            variant="contained"
+            onClick={() => {
+              playlistCreation(props.accessToken, props.playlistName, uriArray);
+            }}
+            sx={{ marginTop: 2 }}
+          >
+            {" "}
+            Save {!props.playlistName ? "Playlist" : props.playlistName}
+          </Button>
+        </Box>
       </Container>
     </>
   );

@@ -12,13 +12,15 @@ const theme = createTheme({
     },
   },
   components: {
+    
+    
     MuiContainer: {
       styleOverrides: {
         root: {
           border: "2px solid #000", // Add your border style
           borderRadius: "8px", // Add border-radius if needed
           padding: "16px", // Add padding if needed
-          
+
           justifyContent: "center", // Center content horizontally
         },
       },

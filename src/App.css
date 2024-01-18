@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  background-image: "url('https://images.squarespace-cdn.com/content/v1/62137f96cd7d1b5e99b823e3/a19ee4c9-8937-46a2-a6b1-5440a98e1335/Home+Page+Photo.jpg')";
+  background-size: "cover";
+  background-position: "center";
 }
 
 .App-logo {
