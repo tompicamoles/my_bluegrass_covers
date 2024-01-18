@@ -29,7 +29,7 @@ const generateToken = async () => {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error("Error", error);
     });
 
   return spotifyToken;
