@@ -18,7 +18,6 @@ import {
   fetchTracks,
   createPlaylist
 } from "./spotify_access_token";
-import WebPlayback from "./components/Player"
 import { Preview } from "@mui/icons-material";
 
 let hardcodedTracks = [
@@ -162,7 +161,7 @@ const App = () => {
               </Grid>
             </Grid>
           </Container>
-          <WebPlayback token={accessToken}/>
+          
         </ThemeProvider>
       </>
     );
