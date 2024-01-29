@@ -18,6 +18,8 @@ import {
   fetchTracks,
   createPlaylist
 } from "./spotify_access_token";
+import WebPlayback from "./components/Player"
+import { Preview } from "@mui/icons-material";
 
 let hardcodedTracks = [
   {
@@ -43,6 +45,8 @@ const App = () => {
   const [playlistName, setPlaylistName] = useState("");
   const [playlist, setPlaylist] = useState([]);
   const [accessToken, setAccessToken] = useState("");
+  const [previewAudio,setPreviewAudio] = useState("")
+  
 
   const setTrackList = async query => {
     const trackList = await fetchTracks(query);
@@ -65,6 +69,26 @@ const App = () => {
     
   }, []);
 
+  const playSample = (previewUrl) => {
+
+   if(previewAudio){
+    console.log("song currently playig")
+    const audio = previewAudio
+    audio.pause()
+
+
+   }
+
+  const audio = new Audio(previewUrl)
+    setPreviewAudio(audio)
+    audio.play()
+    console.log(`audio : ${audio}, state = ${previewAudio}` )
+
+
+
+    
+    
+  }
 
   const updatePlaylist = (track) => {
     track.Added = true;
@@ -122,7 +146,7 @@ const App = () => {
           <Container sx={{ border: "none" }}>
             <Grid container spacing={2} alignContent="center">
               <Grid item xs={8}>
-                <TrackList tracks={tracks} updateTrackList={updateTrackList} />
+                <TrackList tracks={tracks} updateTrackList={updateTrackList} playSample={playSample}/>
               </Grid>
               <Grid item xs={4}>
                 <Playlist
@@ -138,6 +162,7 @@ const App = () => {
               </Grid>
             </Grid>
           </Container>
+          <WebPlayback token={accessToken}/>
         </ThemeProvider>
       </>
     );
@@ -154,6 +179,7 @@ const App = () => {
               Log Into Spotify
             </Button>
           </Container>
+          
         </ThemeProvider>
       </>
     );
