@@ -129,15 +129,20 @@ const fetchTracks = async (query) => {
     .then((data) => {
       let tracks = [];
       data.tracks.items.map((item) => {
-        let track = {
+        if (item.preview_url) {
+          let track = {
           Song: item.name,
           Artist: item.artists[0].name,
           Album: item.album.name,
           Added: false,
+          Preview: item.preview_url,
           uri: item.uri,
         };
-
         tracks.push(track);
+        }
+        
+
+        
       });
       //console.log("Data from API:", data);
 

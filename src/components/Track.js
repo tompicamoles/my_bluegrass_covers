@@ -1,4 +1,4 @@
-import { Add, Remove } from "@mui/icons-material";
+import { Add, PlayArrow, Remove } from "@mui/icons-material";
 import { Divider, Grid, Typography, Box } from "@mui/material";
 
 const Track = (props) => {
@@ -6,8 +6,11 @@ const Track = (props) => {
     <>
       <Box  marginBottom={2}>
         <Grid container>
-          <Grid item xs={11}>
+          <Grid item xs={10}>
             <Typography variant="h6">{props.Song}</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <PlayArrow  onClick={() => props.playSample(props.Preview)}></PlayArrow>
           </Grid>
           <Grid item xs={1}>
             {(props.Added === true ? 
