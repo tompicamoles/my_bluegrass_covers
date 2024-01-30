@@ -75,7 +75,9 @@ const App = () => {
       currentAudio.pause();
     }
 
-    if (currentAudio.toString() !== audio.toString()) { // the song currently playing is not the one selected
+      console.log(currentAudio.src)
+      console.log(previewUrl)
+    if (currentAudio.src !== previewUrl) { // the song currently playing is not the one selected
       
       const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
       const updateState = () => {
