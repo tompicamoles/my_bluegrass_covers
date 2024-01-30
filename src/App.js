@@ -16,7 +16,7 @@ import {
   generateAccessToken,
   authentificate,
   fetchTracks,
-  createPlaylist
+  createPlaylist,
 } from "./spotify_access_token";
 import { Preview } from "@mui/icons-material";
 
@@ -44,50 +44,57 @@ const App = () => {
   const [playlistName, setPlaylistName] = useState("");
   const [playlist, setPlaylist] = useState([]);
   const [accessToken, setAccessToken] = useState("");
-  const [previewAudio,setPreviewAudio] = useState("")
-  
+  const [previewAudio, setPreviewAudio] = useState("");
 
-  const setTrackList = async query => {
+  const setTrackList = async (query) => {
     const trackList = await fetchTracks(query);
     console.log("tracks in app", trackList);
     setTracks(trackList);
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       const spotifyToken = await generateAccessToken();
       console.log("App.js monted. there is a token", spotifyToken);
       setAccessToken(spotifyToken);
-
       
     };
     fetchData();
 
-    
-    setTrackList("Blues")
-    
+    setTrackList("Blues");
+
+    console.log(tracks)
   }, []);
 
-  const playSample = (previewUrl) => {
+  const playSample = (previewUrl, track) => {
+    if (previewAudio) {
+      console.log("song currently playig");
+      const audio = previewAudio;
+      audio.pause();
+    }
 
-   if(previewAudio){
-    console.log("song currently playig")
-    const audio = previewAudio
-    audio.pause()
+    const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
+    const updateState = () => {
+      let updatedArray = tracks.map(track => track.isPlaying = false)
+      const updatedObject = {
+        ...tracks[objectIndex],
+        isPlaying: true,
+      }
+      updatedArray = [...tracks]
+      updatedArray[objectIndex] = updatedObject;
+      
+      setTracks(updatedArray)
+      console.log(updatedArray)
+      console.log(tracks)
+    }
 
+    updateState()
 
-   }
-
-  const audio = new Audio(previewUrl)
-    setPreviewAudio(audio)
-    audio.play()
-    console.log(`audio : ${audio}, state = ${previewAudio}` )
-
-
-
-    
-    
-  }
+    const audio = new Audio(previewUrl);
+    setPreviewAudio(audio);
+    audio.play();
+    console.log(`audio : ${audio}, state = ${previewAudio}`);
+  };
 
   const updatePlaylist = (track) => {
     track.Added = true;
@@ -106,7 +113,6 @@ const App = () => {
     const { value } = target;
     setPlaylistName(value);
   };
-
 
   const updateTrackList = (track) => {
     const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
@@ -145,7 +151,11 @@ const App = () => {
           <Container sx={{ border: "none" }}>
             <Grid container spacing={2} alignContent="center">
               <Grid item xs={8}>
-                <TrackList tracks={tracks} updateTrackList={updateTrackList} playSample={playSample}/>
+                <TrackList
+                  tracks={tracks}
+                  updateTrackList={updateTrackList}
+                  playSample={playSample}
+                />
               </Grid>
               <Grid item xs={4}>
                 <Playlist
@@ -155,13 +165,12 @@ const App = () => {
                   playlist={playlist}
                   setPlaylist={setPlaylist}
                   updateTrackList={updateTrackList}
-                  createPlaylist = {createPlaylist}
+                  createPlaylist={createPlaylist}
                   accessToken={accessToken}
                 />
               </Grid>
             </Grid>
           </Container>
-          
         </ThemeProvider>
       </>
     );
@@ -178,7 +187,6 @@ const App = () => {
               Log Into Spotify
             </Button>
           </Container>
-          
         </ThemeProvider>
       </>
     );

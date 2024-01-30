@@ -19,8 +19,10 @@ const TrackList = (props) => {
             Album={track.Album}
             Added={track.Added}
             Preview= {track.Preview}
+            isPlaying={track.isPlaying}
             updateTrackList={props.updateTrackList}
             playSample={props.playSample}
+           
           />
         ))}
       </Container>
