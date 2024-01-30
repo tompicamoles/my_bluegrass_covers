@@ -85,7 +85,7 @@ const App = () => {
       
       setTracks(updatedArray)
       console.log(updatedArray)
-      console.log(tracks + tracks)
+      console.log(tracks)
     }
 
     updateState()
