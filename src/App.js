@@ -57,43 +57,51 @@ const App = () => {
       const spotifyToken = await generateAccessToken();
       console.log("App.js monted. there is a token", spotifyToken);
       setAccessToken(spotifyToken);
-      
     };
     fetchData();
 
     setTrackList("Blues");
 
-    console.log(tracks)
+    console.log(tracks);
   }, []);
 
   const playSample = (previewUrl, track) => {
-    if (previewAudio) {
-      console.log("song currently playig");
-      const audio = previewAudio;
-      audio.pause();
-    }
-
-    const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
-    const updateState = () => {
-      let updatedArray = tracks.map(track => track.isPlaying = false)
-      const updatedObject = {
-        ...tracks[objectIndex],
-        isPlaying: true,
-      }
-      updatedArray = [...tracks]
-      updatedArray[objectIndex] = updatedObject;
-      
-      setTracks(updatedArray)
-      console.log(updatedArray)
-      console.log(tracks + "wessss")
-    }
-
-    updateState()
-
+    const currentAudio = previewAudio;
     const audio = new Audio(previewUrl);
-    setPreviewAudio(audio);
-    audio.play();
-    console.log(`audio : ${audio}, state = ${previewAudio}`);
+    console.log("Audio is the same same" + currentAudio === audio)
+
+    if (previewAudio) { // a song is currently playing
+      console.log("song currently playig");
+      currentAudio.pause();
+    }
+
+      console.log(currentAudio.src)
+      console.log(previewUrl)
+    if (currentAudio.src !== previewUrl) { // the song currently playing is not the one selected
+      
+      const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
+      const updateState = () => {
+        let updatedArray = tracks.map((track) => (track.isPlaying = false));
+        const updatedObject = {
+          ...tracks[objectIndex],
+          isPlaying: true,
+        };
+        updatedArray = [...tracks];
+        updatedArray[objectIndex] = updatedObject;
+
+        setTracks(updatedArray);
+        console.log(updatedArray);
+        console.log(tracks + tracks + "yooooo");
+      };
+
+      updateState();
+
+      setPreviewAudio(audio);
+      audio.play();
+      console.log(`audio : ${audio}, state = ${previewAudio}`);
+    } else {
+      setPreviewAudio('')
+    }
   };
 
   const updatePlaylist = (track) => {
