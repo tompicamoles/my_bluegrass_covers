@@ -137,6 +137,7 @@ const fetchTracks = async (query) => {
           Added: false,
           Preview: item.preview_url,
           uri: item.uri,
+          isPlaying: false,
         };
         tracks.push(track);
         }
