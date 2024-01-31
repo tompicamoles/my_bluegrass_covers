@@ -20,25 +20,6 @@ import {
 } from "./spotify_access_token";
 import { Preview } from "@mui/icons-material";
 
-let hardcodedTracks = [
-  {
-    Id: 1,
-    Song: "North Country Blues",
-    Artist: "Mighty Poplar",
-    Album: "Love",
-    Added: false,
-    uri: "test.com",
-  },
-  {
-    Id: 2,
-    Song: "Hey Joe",
-    Artist: "Caamp",
-    Album: "Folk",
-    Added: false,
-    uri: "test-2.com",
-  },
-];
-
 const App = () => {
   const [tracks, setTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
@@ -62,43 +43,53 @@ const App = () => {
 
     setTrackList("Blues");
 
-    console.log(tracks);
   }, []);
 
   const playSample = (previewUrl, track) => {
     const currentAudio = previewAudio;
     const audio = new Audio(previewUrl);
-    console.log("Audio is the same same" + currentAudio === audio)
+
+    const resetPlayButton = () => {
+      let updatedArray = [...tracks];
+      updatedArray.map((track) => (track.isPlaying = false));
+      setTracks(updatedArray);
+    }
+
+    
+
+    
 
     if (previewAudio) { // a song is currently playing
+      
       console.log("song currently playig");
+
+      resetPlayButton()
+
       currentAudio.pause();
     }
 
-      console.log(currentAudio.src)
-      console.log(previewUrl)
+      
     if (currentAudio.src !== previewUrl) { // the song currently playing is not the one selected
       
       const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
       const updateState = () => {
-        let updatedArray = tracks.map((track) => (track.isPlaying = false));
         const updatedObject = {
           ...tracks[objectIndex],
           isPlaying: true,
         };
-        updatedArray = [...tracks];
+        let updatedArray = [...tracks];
+        //updatedArray.map((track) => (track.isPlaying = false));
         updatedArray[objectIndex] = updatedObject;
 
         setTracks(updatedArray);
-        console.log(updatedArray);
-        console.log(tracks + tracks + "yooooo");
+        setTimeout(() => {resetPlayButton()},"30000")
+        
       };
 
       updateState();
 
       setPreviewAudio(audio);
       audio.play();
-      console.log(`audio : ${audio}, state = ${previewAudio}`);
     } else {
       setPreviewAudio('')
     }
@@ -106,9 +97,10 @@ const App = () => {
 
   const updatePlaylist = (track) => {
     track.Added = true;
+    track.isPlaying = "disabled"
 
     setPlaylist((prev) => {
-      let isIncluded = prev.some((t) => t.uri === track.uri);
+      //let isIncluded = prev.some((t) => t.uri === track.uri);
       if (prev.some((t) => t.uri === track.uri)) {
         return prev.filter((t) => t.uri !== track.uri);
       } else {
