@@ -111,9 +111,10 @@ const App = () => {
 
   const updatePlaylist = (track) => {
     track.Added = true;
+    track.isPlaying = "disabled"
 
     setPlaylist((prev) => {
-      let isIncluded = prev.some((t) => t.uri === track.uri);
+      //let isIncluded = prev.some((t) => t.uri === track.uri);
       if (prev.some((t) => t.uri === track.uri)) {
         return prev.filter((t) => t.uri !== track.uri);
       } else {

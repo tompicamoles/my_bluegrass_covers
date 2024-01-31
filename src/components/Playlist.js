@@ -58,6 +58,7 @@ const Playlist = (props) => {
             Artist={track.Artist}
             Album={track.Album}
             Added={track.Added}
+            isPlaying={track.isPlaying}
             updateTrackList={props.updateTrackList}
           />
         ))}

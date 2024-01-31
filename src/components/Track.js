@@ -9,7 +9,8 @@ const Track = (props) => {
           <Grid item xs={10}>
             <Typography variant="h6">{props.Song}</Typography>
           </Grid>
-          <Grid item xs={1}>
+
+          {props.isPlaying === "disabled" ? <></> :(<Grid item xs={1}>
             {props.isPlaying === false ? (
               <PlayArrow
                 onClick={() => props.playSample(props.Preview, props.track)}
@@ -19,7 +20,10 @@ const Track = (props) => {
                 onClick={() => props.playSample(props.Preview, props.track)}
               ></StopCircle>
             )}
-          </Grid>
+          </Grid>) }
+
+          
+
           <Grid item xs={1}>
             {props.Added === true ? (
               <Remove onClick={() => props.updateTrackList(props.track)} />
