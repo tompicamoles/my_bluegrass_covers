@@ -62,43 +62,48 @@ const App = () => {
 
     setTrackList("Blues");
 
-    console.log(tracks);
   }, []);
 
   const playSample = (previewUrl, track) => {
     const currentAudio = previewAudio;
     const audio = new Audio(previewUrl);
-    console.log("Audio is the same same" + currentAudio === audio)
+
+    
+
+    
 
     if (previewAudio) { // a song is currently playing
+      
       console.log("song currently playig");
+
+      let updatedArray = [...tracks];
+      updatedArray.map((track) => (track.isPlaying = false));
+      setTracks(updatedArray);
+
       currentAudio.pause();
     }
 
-      console.log(currentAudio.src)
-      console.log(previewUrl)
+      
     if (currentAudio.src !== previewUrl) { // the song currently playing is not the one selected
       
       const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
       const updateState = () => {
-        let updatedArray = tracks.map((track) => (track.isPlaying = false));
         const updatedObject = {
           ...tracks[objectIndex],
           isPlaying: true,
         };
-        updatedArray = [...tracks];
+        let updatedArray = [...tracks];
+        //updatedArray.map((track) => (track.isPlaying = false));
         updatedArray[objectIndex] = updatedObject;
 
         setTracks(updatedArray);
-        console.log(updatedArray);
-        console.log(tracks + tracks + "yooooo");
+        
       };
 
       updateState();
 
       setPreviewAudio(audio);
       audio.play();
-      console.log(`audio : ${audio}, state = ${previewAudio}`);
     } else {
       setPreviewAudio('')
     }
