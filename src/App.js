@@ -20,25 +20,6 @@ import {
 } from "./spotify_access_token";
 import { Preview } from "@mui/icons-material";
 
-let hardcodedTracks = [
-  {
-    Id: 1,
-    Song: "North Country Blues",
-    Artist: "Mighty Poplar",
-    Album: "Love",
-    Added: false,
-    uri: "test.com",
-  },
-  {
-    Id: 2,
-    Song: "Hey Joe",
-    Artist: "Caamp",
-    Album: "Folk",
-    Added: false,
-    uri: "test-2.com",
-  },
-];
-
 const App = () => {
   const [tracks, setTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
@@ -68,6 +49,12 @@ const App = () => {
     const currentAudio = previewAudio;
     const audio = new Audio(previewUrl);
 
+    const resetPlayButton = () => {
+      let updatedArray = [...tracks];
+      updatedArray.map((track) => (track.isPlaying = false));
+      setTracks(updatedArray);
+    }
+
     
 
     
@@ -76,9 +63,7 @@ const App = () => {
       
       console.log("song currently playig");
 
-      let updatedArray = [...tracks];
-      updatedArray.map((track) => (track.isPlaying = false));
-      setTracks(updatedArray);
+      resetPlayButton()
 
       currentAudio.pause();
     }
@@ -97,6 +82,7 @@ const App = () => {
         updatedArray[objectIndex] = updatedObject;
 
         setTracks(updatedArray);
+        setTimeout(() => {resetPlayButton()},"30000")
         
       };
 

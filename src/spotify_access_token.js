@@ -105,9 +105,9 @@ const fetchTracks = async (query) => {
     Authorization: `Bearer ${token}`,
   };
   const requestBody = new URLSearchParams({
-    q: query,
+    q: `${query} `,
     type: ["track"],
-    limit: 15,
+    limit: 25,
   });
 
   const urlWithParameters = apiUrl + requestBody.toString();
