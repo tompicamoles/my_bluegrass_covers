@@ -104,19 +104,69 @@ const fetchTracks = async (query) => {
   const header = {
     Authorization: `Bearer ${token}`,
   };
-  const requestBody = new URLSearchParams({
-    q: `${query} `,
+
+  const requestBodyPickinOn = new URLSearchParams({
+    q: `${query} Pickin' On Series `,
     type: ["track"],
-    limit: 25,
+    limit: 5,
+  });
+
+  const requestBody = new URLSearchParams({
+    q: `${query} genre : Bluegrass, genre : country `,
+    type: ["track"],
+    limit: 15,
   });
 
   const urlWithParameters = apiUrl + requestBody.toString();
+  const urlWithParametersPickinOn = apiUrl + requestBodyPickinOn.toString()
   //console.log(urlWithParameters)
 
   const requestOptions = {
     headers: header,
   };
   //console.log(requestOptions)
+
+  let tracks = [];
+
+  const createTrack = (item) => {
+    let track = {
+      Song: item.name,
+      Artist: item.artists[0].name,
+      Album: item.album.name,
+      Added: false,
+      Preview: item.preview_url,
+      uri: item.uri,
+      isPlaying: false,
+    };
+    
+    if (!tracks.some(existingTrack => existingTrack.uri === track.uri)){tracks.push(track)};
+  }
+
+  const trackListPickinOn = await fetch(urlWithParametersPickinOn, requestOptions)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    //console.log(response)
+    return response.json();
+  })
+  .then((data) => {
+    
+    data.tracks.items.map((item) => {
+      if (item.preview_url) {
+        createTrack(item)
+        console.log(`tracks Pickin'on :`, tracks)
+      }
+    });
+    //console.log("Data from API:", data);
+
+    console.log("tracks in BFF", tracks);
+
+    // Additional processing with the received data
+  })
+  .catch((error) => {
+    console.error("Fetch error:", error);
+  });
 
   const trackList = await fetch(urlWithParameters, requestOptions)
     .then((response) => {
@@ -127,28 +177,15 @@ const fetchTracks = async (query) => {
       return response.json();
     })
     .then((data) => {
-      let tracks = [];
+      
       data.tracks.items.map((item) => {
         if (item.preview_url) {
-          let track = {
-          Song: item.name,
-          Artist: item.artists[0].name,
-          Album: item.album.name,
-          Added: false,
-          Preview: item.preview_url,
-          uri: item.uri,
-          isPlaying: false,
-        };
-        tracks.push(track);
+          createTrack(item)
         }
-        
-
-        
       });
       //console.log("Data from API:", data);
 
       console.log("tracks in BFF", tracks);
-      return tracks;
 
       // Additional processing with the received data
     })
@@ -156,13 +193,15 @@ const fetchTracks = async (query) => {
       console.error("Fetch error:", error);
     });
 
-  return trackList;
+    
+
+
+
+  return tracks
+
 };
 
 const createPlaylist = async (accessToken, name, items) => {
-
-  
-
   const AccesToken = accessToken;
   const playlistName = name;
   console.log(AccesToken);
