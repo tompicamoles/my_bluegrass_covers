@@ -195,9 +195,7 @@ const fetchTracks = async (query) => {
 
     
 
-
-
-  return tracks
+    return tracks
 
 };
 
