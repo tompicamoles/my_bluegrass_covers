@@ -166,7 +166,11 @@ const fetchTracks = async (query) => {
   })
   .catch((error) => {
     console.error("Fetch error:", error);
+
+  
   });
+
+
 
   const trackList = await fetch(urlWithParameters, requestOptions)
     .then((response) => {

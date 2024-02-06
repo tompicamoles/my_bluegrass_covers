@@ -2,13 +2,11 @@ import {
   Button,
   Container,
   TextField,
-  Typography,
   Box,
-  Input,
+
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Track from "./Track";
-import { createPlaylist } from "../spotify_access_token";
 
 const Playlist = (props) => {
   const [uriArray, setUriArray] = useState([]);

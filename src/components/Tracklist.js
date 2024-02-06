@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Track from "./Track";
 import { Container, Typography } from "@mui/material";
-import { purple } from "@mui/material/colors";
 
 const TrackList = (props) => {
   return (

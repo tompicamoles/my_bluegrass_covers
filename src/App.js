@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import TrackList from "./components/Tracklist";
 import {
-  Box,
   Button,
   Container,
-  CssBaseline,
   Grid,
-  Typography,
 } from "@mui/material";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -18,7 +15,6 @@ import {
   fetchTracks,
   createPlaylist,
 } from "./spotify_access_token";
-import { Preview } from "@mui/icons-material";
 
 const App = () => {
   const [tracks, setTracks] = useState([]);

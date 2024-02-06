@@ -1,12 +1,10 @@
 import {
   Button,
-  Container,
   Grid,
   TextField,
   Typography,
-  backgroundColor,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const SearchBar = (props) => {
   const [query, setQuery] = useState("Blues");
