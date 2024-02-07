@@ -111,13 +111,13 @@ const fetchTracks = async (query) => {
     limit: 5,
   });
 
-  const requestBody = new URLSearchParams({
-    q: `${query} genre : Bluegrass, genre : country `,
-    type: ["track"],
-    limit: 15,
-  });
+  // const requestBody = new URLSearchParams({
+  //   q: `${query} genre : Bluegrass, genre : country `,
+  //   type: ["track"],
+  //   limit: 15,
+  // });
 
-  const urlWithParameters = apiUrl + requestBody.toString();
+  //const urlWithParameters = apiUrl + requestBody.toString();
   const urlWithParametersPickinOn = apiUrl + requestBodyPickinOn.toString()
   //console.log(urlWithParameters)
 
@@ -157,6 +157,7 @@ const fetchTracks = async (query) => {
         createTrack(item)
         console.log(`tracks Pickin'on :`, tracks)
       }
+      return tracks
     });
     //console.log("Data from API:", data);
 
