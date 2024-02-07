@@ -163,6 +163,7 @@ const fetchTracks = async (query) => {
     console.log("tracks in BFF", tracks);
 
     // Additional processing with the received data
+    return tracks
   })
   .catch((error) => {
     console.error("Fetch error:", error);
@@ -172,34 +173,34 @@ const fetchTracks = async (query) => {
 
 
 
-  const trackList = await fetch(urlWithParameters, requestOptions)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      //console.log(response)
-      return response.json();
-    })
-    .then((data) => {
+  // const trackList = await fetch(urlWithParameters, requestOptions)
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+  //     //console.log(response)
+  //     return response.json();
+  //   })
+  //   .then((data) => {
       
-      data.tracks.items.map((item) => {
-        if (item.preview_url) {
-          createTrack(item)
-        }
-      });
-      //console.log("Data from API:", data);
+  //     data.tracks.items.map((item) => {
+  //       if (item.preview_url) {
+  //         createTrack(item)
+  //       }
+  //     });
+  //     //console.log("Data from API:", data);
 
-      console.log("tracks in BFF", tracks);
+  //     console.log("tracks in BFF", tracks);
 
-      // Additional processing with the received data
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-    });
+  //     // Additional processing with the received data
+  //   })
+  //   .catch((error) => {
+  //     console.error("Fetch error:", error);
+  //   });
 
     
 
-    return tracks
+    return trackListPickinOn
 
 };
 
