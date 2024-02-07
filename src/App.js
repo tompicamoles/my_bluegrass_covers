@@ -180,7 +180,7 @@ const App = () => {
             style={{ marginTop: "100px", marginBottom: "100px" }}
           >
             <Button variant="contained" onClick={authentificate}>
-              Log Into Spotify
+              Log In
             </Button>
           </Container>
         </ThemeProvider>
