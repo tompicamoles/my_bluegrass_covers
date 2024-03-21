@@ -22,8 +22,10 @@ const App = () => {
   const [playlist, setPlaylist] = useState([]);
   const [accessToken, setAccessToken] = useState("");
   const [previewAudio, setPreviewAudio] = useState("");
+  const [currentTimeout, setCurrentTimeout] = useState();
 
   const setTrackList = async (query) => {
+    console.log(query)
     const trackList = await fetchTracks(query);
     console.log("tracks in app", trackList);
     setTracks(trackList);
@@ -45,11 +47,19 @@ const App = () => {
     const currentAudio = previewAudio;
     const audio = new Audio(previewUrl);
 
+    // const resetPlayButton =  () => {
+    //   let updatedArray =  [...tracks];
+    //   updatedArray.map((track) => (track.isPlaying = false));
+    //   setTracks(updatedArray);
+    // }
+
     const resetPlayButton = () => {
-      let updatedArray = [...tracks];
-      updatedArray.map((track) => (track.isPlaying = false));
-      setTracks(updatedArray);
-    }
+      setTracks(prevTracks => {
+        const updatedArray = prevTracks.map(track => ({ ...track, isPlaying: false }));
+        return updatedArray;
+      });
+    };
+    
 
     
 
@@ -78,7 +88,10 @@ const App = () => {
         updatedArray[objectIndex] = updatedObject;
 
         setTracks(updatedArray);
-        setTimeout(() => {resetPlayButton()},"30000")
+
+        clearTimeout(currentTimeout);
+        
+        setCurrentTimeout(setTimeout(() => {resetPlayButton()},"30000"))
         
       };
 
