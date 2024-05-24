@@ -63,13 +63,7 @@ const App = () => {
 
     if (previewAudio) {
       // a song is currently playing
-
-      console.log("song currently playig");
-
-      await resetPlayButton();
-
       currentAudio.pause();
-
     }
 
     if (currentAudio.src !== previewUrl) {
@@ -104,6 +98,7 @@ const App = () => {
     } else {
       
       setPreviewAudio("");
+      resetPlayButton();
     }
   };
 
