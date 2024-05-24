@@ -1,15 +1,25 @@
 import React from "react";
 import Track from "./Track";
-import { Container, Typography } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 
 const TrackList = (props) => {
   return (
-    <>
-      <Container>
+    <Grid xs={12} md={8} item container sx={{pr : { md: 4}, pb:{xs: 4, md: 0}}}>
+      <Grid
+        item
+        container
+        id="borders"
+        direction={"column"}
+        sx={{
+          border: "2px solid #000", // Add your border style
+          borderRadius: "8px", // Add border-radius if needed
+          padding: "16px",
+        }}
+      >
         <Typography sx={{ paddingBottom: 2 }} variant="h4">
           Available tracks
         </Typography>
-        {props.tracks.map((track,index) => (
+        {props.tracks.map((track, index) => (
           <Track
             key={index}
             track={track}
@@ -17,15 +27,14 @@ const TrackList = (props) => {
             Artist={track.Artist}
             Album={track.Album}
             Added={track.Added}
-            Preview= {track.Preview}
+            Preview={track.Preview}
             isPlaying={track.isPlaying}
             updateTrackList={props.updateTrackList}
             playSample={props.playSample}
-           
           />
         ))}
-      </Container>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import TrackList from "./components/Tracklist";
-import {
-  Button,
-  Container,
-  Grid,
-} from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar/SearchBar";
 import theme from "./Theme";
@@ -24,8 +20,9 @@ const App = () => {
   const [previewAudio, setPreviewAudio] = useState("");
   const [currentTimeout, setCurrentTimeout] = useState();
 
+
   const setTrackList = async (query) => {
-    console.log(query)
+    console.log(query);
     const trackList = await fetchTracks(query);
     console.log("tracks in app", trackList);
     setTracks(trackList);
@@ -39,11 +36,10 @@ const App = () => {
     };
     fetchData();
 
-    setTrackList("Blues");
-
+    setTrackList("Come as you are");
   }, []);
 
-  const playSample = (previewUrl, track) => {
+  const playSample = async (previewUrl, track) => {
     const currentAudio = previewAudio;
     const audio = new Audio(previewUrl);
 
@@ -53,30 +49,32 @@ const App = () => {
     //   setTracks(updatedArray);
     // }
 
-    const resetPlayButton = () => {
-      setTracks(prevTracks => {
-        const updatedArray = prevTracks.map(track => ({ ...track, isPlaying: false }));
+    const resetPlayButton = async () => {
+       setTracks((prevTracks) => {
+        const updatedArray = prevTracks.map((track) => ({
+          
+          ...track,
+          isPlaying: false,
+        }));
+        console.log("tracks all back to non playing" ,updatedArray)
         return updatedArray;
       });
     };
-    
 
-    
+    if (previewAudio) {
+      // a song is currently playing
 
-    
-
-    if (previewAudio) { // a song is currently playing
-      
       console.log("song currently playig");
 
-      resetPlayButton()
+      await resetPlayButton();
 
       currentAudio.pause();
+
     }
 
-      
-    if (currentAudio.src !== previewUrl) { // the song currently playing is not the one selected
-      
+    if (currentAudio.src !== previewUrl) {
+      // the song currently playing is not the one selected
+
       const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
       const updateState = () => {
         const updatedObject = {
@@ -87,12 +85,16 @@ const App = () => {
         //updatedArray.map((track) => (track.isPlaying = false));
         updatedArray[objectIndex] = updatedObject;
 
+        console.log("I am about to set the track" , updatedArray)
         setTracks(updatedArray);
 
         clearTimeout(currentTimeout);
-        
-        setCurrentTimeout(setTimeout(() => {resetPlayButton()},"30000"))
-        
+
+        setCurrentTimeout(
+          setTimeout(() => {
+            resetPlayButton();
+          }, "30000")
+        );
       };
 
       updateState();
@@ -100,13 +102,14 @@ const App = () => {
       setPreviewAudio(audio);
       audio.play();
     } else {
-      setPreviewAudio('')
+      
+      setPreviewAudio("");
     }
   };
 
   const updatePlaylist = (track) => {
     track.Added = true;
-    track.isPlaying = "disabled"
+    track.isPlaying = "disabled";
 
     setPlaylist((prev) => {
       //let isIncluded = prev.some((t) => t.uri === track.uri);
@@ -147,26 +150,53 @@ const App = () => {
     console.log(playlist);
   };
 
-  if (accessToken) {
-    return (
-      <>
-        <ThemeProvider theme={theme}>
-          <Container
-            maxWidth="sm"
-            style={{ marginTop: "100px", marginBottom: "100px" }}
-          >
-            <SearchBar setTrackList={setTrackList} />
-          </Container>
-          <Container sx={{ border: "none" }}>
-            <Grid container spacing={2} alignContent="center">
-              <Grid item xs={8}>
+  return (
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          backgroundImage: "url('/background_horizontal.jpg')",
+          backgroundRepeat: "repeat", // Adjust this to control the repetition
+          backgroundSize: "cover", // Cover the entire container
+          minHeight: "100vh", // Ensure the container takes full viewport height
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          overflow: "auto", // Allow scrolling within the container
+        }}
+      >
+        <Grid container justifyContent={"center"} alignItems="flex-start">
+          <Grid item>
+            <Typography
+              variant="h1"
+              pt={10}
+              pb={7}
+              sx={{ display: { xs: "none", md: "block" } }}
+            >
+              {" "}
+              My Bluegrass Playlist
+            </Typography>
+            <Typography
+              variant="h4"
+              pt={7}
+              pb={4}
+              sx={{ display: { xs: "block", md: "none" } }}
+            >
+              {" "}
+              My Bluegrass Playlist
+            </Typography>
+          </Grid>
+          {accessToken ? (
+            <>
+              <Grid item container p={5} justifyContent={"center"}>
+                <SearchBar setTrackList={setTrackList} />
+
                 <TrackList
                   tracks={tracks}
                   updateTrackList={updateTrackList}
                   playSample={playSample}
                 />
-              </Grid>
-              <Grid item xs={4}>
+
                 <Playlist
                   playlistName={playlistName}
                   setPlaylistName={setPlaylistName}
@@ -178,28 +208,53 @@ const App = () => {
                   accessToken={accessToken}
                 />
               </Grid>
-            </Grid>
-          </Container>
-        </ThemeProvider>
-      </>
-    );
-  } else {
-    return (
-      <>
-        {" "}
-        <ThemeProvider theme={theme}>
-          <Container
-            maxWidth="sm"
-            style={{ marginTop: "100px", marginBottom: "100px" }}
-          >
-            <Button variant="contained" onClick={authentificate}>
-              Log In
-            </Button>
-          </Container>
-        </ThemeProvider>
-      </>
-    );
-  }
+            </>
+          ) : (
+            <>
+              <Grid
+                item
+                container
+                justifyContent={"center"}
+                sx={{
+                  maxHeight: 100,
+                  border: "2px solid #000", // Add your border style
+                  borderRadius: "8px", // Add border-radius if needed
+                  padding: "16px",
+                  width: "80%",
+                }}
+              >
+                <Button variant="contained" onClick={authentificate}>
+                  Log In
+                </Button>
+              </Grid>
+              <Grid
+                item
+                container
+                xs={12}
+                id="banjo"
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Box
+                  sx={{
+                    width: 400,
+                    height: 400,
+                    transition: "transform 0.3s ease-in-out", // Smooth transition for transform changes
+                    "&:hover": {
+                      transform: "rotate(10deg)", // Tilts the image 10 degrees to the right on hover
+                    },
+                  }}
+                  component="img"
+                  src={"/banjo.svg"}
+                  alt={"banjo"}
+                />
+              </Grid>
+            </>
+          )}
+        </Grid>{" "}
+      </Box>
+    </ThemeProvider>
+  );
 };
 
 export default App;
