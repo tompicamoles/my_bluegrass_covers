@@ -49,11 +49,11 @@ const App = () => {
     //   setTracks(updatedArray);
     // }
 
-    const resetPlayButton = async () => {
+    const resetAllPlayButtons =  () => {
        setTracks((prevTracks) => {
-        const updatedArray = prevTracks.map((track) => ({
+        const updatedArray = prevTracks.map((item) => ({
           
-          ...track,
+          ...item,
           isPlaying: false,
         }));
         console.log("tracks all back to non playing" ,updatedArray)
@@ -69,36 +69,33 @@ const App = () => {
     if (currentAudio.src !== previewUrl) {
       // the song currently playing is not the one selected
 
-      const objectIndex = tracks.findIndex((obj) => obj.uri === track.uri);
-      const updateState = () => {
-        const updatedObject = {
-          ...tracks[objectIndex],
-          isPlaying: true,
-        };
-        let updatedArray = [...tracks];
-        //updatedArray.map((track) => (track.isPlaying = false));
-        updatedArray[objectIndex] = updatedObject;
-
-        console.log("I am about to set the track" , updatedArray)
-        setTracks(updatedArray);
+      setTracks((prevTracks) => {
+        const updatedArray = prevTracks.map((item) => ({
+          
+          ...item,
+          isPlaying: item.Preview === track.Preview ? true : false,
+        }));
+        console.log("tracks all back to non playing" ,updatedArray)
+        return updatedArray;
+      });
 
         clearTimeout(currentTimeout);
 
         setCurrentTimeout(
           setTimeout(() => {
-            resetPlayButton();
+            resetAllPlayButtons();
           }, "30000")
         );
-      };
+      
 
-      updateState();
+    
 
       setPreviewAudio(audio);
       audio.play();
     } else {
       
       setPreviewAudio("");
-      resetPlayButton();
+      resetAllPlayButtons();
     }
   };
 
