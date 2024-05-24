@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import TrackList from "./components/Tracklist";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Playlist from "./components/Playlist";
 import SearchBar from "./components/SearchBar/SearchBar";
 import theme from "./Theme";
