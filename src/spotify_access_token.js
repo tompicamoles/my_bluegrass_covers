@@ -1,7 +1,8 @@
-const clientId = "3fb5b859d02b426fb35f71322b36d576";
-const clientSecret = "b189b3868bba4c2cabe8cbee48b4e8a4";
+const clientId = process.env.REACT_APP_CLIENT_ID;
+const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
+const redirectUri =process.env.REACT_APP_REDIRECT_URI ;
 const url = "https://accounts.spotify.com/api/token";
-const redirectUri = "http://localhost:3000/callback";
+
 
 const generateToken = async () => {
   const authOptions = {
