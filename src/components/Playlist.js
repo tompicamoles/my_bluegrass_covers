@@ -11,6 +11,17 @@ const Playlist = (props) => {
     setUriArray(Array);
   }, [props.playlist]);
 
+  const resetAllAddedIcons =  () => {
+    props.setTracks((prevTracks) => {
+     const updatedArray = prevTracks.map((item) => ({
+       
+       ...item,
+       Added: false,
+     }));
+     return updatedArray;
+   });
+ };
+
   const playlistCreation = (token, name, tracks) => {
     if (!name || tracks.length === 0) {
       if (!name) {
@@ -21,12 +32,14 @@ const Playlist = (props) => {
     } else {
       props.createPlaylist(token, name, tracks);
 
-      alert("Success! Your playlist was created");
+      alert("This feature s under Spotify validation. Coming soon.");
 
       props.setPlaylistName("");
       props.setPlaylist([]);
       setUriArray([]);
     }
+
+    resetAllAddedIcons()
   };
 
   console.log(uriArray);

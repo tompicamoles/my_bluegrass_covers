@@ -198,6 +198,8 @@ const App = () => {
                   updateTrackList={updateTrackList}
                   createPlaylist={createPlaylist}
                   accessToken={accessToken}
+                  tracks={tracks}
+                  setTracks={setTracks}
                 />
               </Grid>
             </>
