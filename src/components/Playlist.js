@@ -32,7 +32,7 @@ const Playlist = (props) => {
     } else {
       props.createPlaylist(token, name, tracks);
 
-      alert("This feature s under Spotify validation. Coming soon.");
+      alert("This feature is under Spotify validation. Coming soon.");
 
       props.setPlaylistName("");
       props.setPlaylist([]);
